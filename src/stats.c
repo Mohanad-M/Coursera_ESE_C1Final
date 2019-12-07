@@ -12,6 +12,7 @@
 /* Includes */
 #include <stdio.h>
 #include "stats.h"
+#include "platform.h"
 
 /* Global Variables */
 unsigned char g_array[SIZE] = {  34, 201, 190, 154,   8, 194,   2,   6,
@@ -96,28 +97,30 @@ void print_statistics(unsigned char *a_array, unsigned char a_size){
 	minimum = find_minimum(g_array,SIZE);
 
 	/* prinitng statistics on screen */
-	printf("The Calculated Statistics are:\n");
-	printf("***************\n");
-	printf("Median Element  = %.0f\n", median);
-	printf("Mean Value      = %0.f\n", mean);
-	printf("Maximum Element = %d\n", maximum);
-	printf("Minimum Element = %d\n", minimum);
-	printf("****************************************\n\n");
+	PRINTF("The Calculated Statistics are:\n");
+	PRINTF("***************\n");
+	PRINTF("Median Element  = %.0f\n", median);
+	PRINTF("Mean Value      = %0.f\n", mean);
+	PRINTF("Maximum Element = %d\n", maximum);
+	PRINTF("Minimum Element = %d\n", minimum);
+	PRINTF("****************************************\n\n");
 }
 
 void print_array(unsigned char *a_array, unsigned char a_size){
+#ifdef VERBOSE
 	/* local variables */
 	unsigned char i;
 
-	printf("The Given Array:\n");
+	PRINTF("The Given Array:\n");
 	/* iterarting through array elements */
 	for( i = 0 ; i < a_size ; i++ ){
-		printf("%3d\t", a_array[i]);
+		PRINTF("%3d\t", a_array[i]);
 		if( (i+1)%8 == 0 ){
-			printf("\n");
+			PRINTF("\n");
 		}
 	}
-	printf("****************************************\n");
+	PRINTF("****************************************\n");
+#endif
 }
 
 void sort_array(unsigned char *a_array, unsigned char a_size){
@@ -146,14 +149,14 @@ void sort_array(unsigned char *a_array, unsigned char a_size){
 	}
 
 	/* printing sorted array */
-	printf("The Array after Sorting:\n");
+	PRINTF("The Array after Sorting:\n");
 	for( i = 0 ; i < a_size ; i++ ){
-		printf("%3d\t", a_array[i]);
+		PRINTF("%3d\t", a_array[i]);
 		if( (i+1)%8 == 0 ){
-			printf("\n");
+			PRINTF("\n");
 		}
 	}
-	printf("****************************************\n");
+	PRINTF("****************************************\n");
 }
 
 

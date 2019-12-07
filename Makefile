@@ -23,6 +23,16 @@ include sources.mk
 
 # Platform Overrides
 PLATFORM = HOST
+VERBOSE = DISABLE
+COURSE = COURSE
+
+#ifeq ($(VERBOSE),ENABLE)
+CPPFLAGS += -DVERBOSE
+#endif
+
+#ifeq ($(COURSE),COURSE1)
+CPPFLAGS += -DCOURSE1
+#endif
 
 # Compiler Flags & Defines
 
@@ -37,7 +47,7 @@ PLATFORM = HOST
 #------------------------------------------------------------------------------
 
 COMCFLAGS = -Wall -Werror -g -O0 -std=c99
-TARGET = c1m2
+TARGET = c1_final
 
 # Platform Conditional Execution
 ifeq ($(PLATFORM), MSP)
@@ -49,11 +59,9 @@ ifeq ($(PLATFORM), MSP)
 	ARCHFLAGS = -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 	
 	# architecture specific flags and includes
-	SOURCES = main.c \
-		  memory.c \
-		  interrupts_msp432p401r_gcc.c \
-		  startup_msp432p401r_gcc.c \
-		  system_msp432p401r_gcc.c
+	SOURCES += src/interrupts_msp432p401r_gcc.c \
+		   src/startup_msp432p401r_gcc.c \
+		   src/system_msp432p401r_gcc.c
 
 	CC = arm-none-eabi-gcc
 	CPPFLAGS = -DMSP432 $(INCLUDES)
