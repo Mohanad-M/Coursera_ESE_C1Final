@@ -11,6 +11,11 @@
 #ifndef __MEMORY_H__
 #define __MEMORY_H__
 
+/* Includes */
+#include <stdint.h>
+#include <inttypes.h>
+#include <stdlib.h>
+
 /* Function Prototypes & Description */
 
 /***
@@ -219,13 +224,13 @@ int32_t * reserve_words(size_t length);
  * 	_ in that location.
  * [ARGUMENTS]:
  * [IN]
- * 	_ int32_t *src : Pointer to dynamic data to be freed.
+ * 	_ uint32_t *src : Pointer to dynamic data to be freed.
  * [OUT]
  * 	_ the dynamic data in the given location will be freed.
  * [RETURN TYPE]:
  * 	_ void.
  * --*/
-void free_words(int32_t *src);
+void free_words(uint32_t *src);
 
 
 

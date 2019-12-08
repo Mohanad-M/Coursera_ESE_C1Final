@@ -14,26 +14,10 @@
 #include "stats.h"
 #include "platform.h"
 
-/* Global Variables */
-unsigned char g_array[SIZE] = {  34, 201, 190, 154,   8, 194,   2,   6,
-				114,  88,  45,  76, 123,  87,  25,  23,
-				200, 122, 150,  90,  92,  87, 177, 244,
-				201,   6,  12,  60,   8,   2,   5,  67,
-				  7,  87, 250, 230,  99,   3, 100,  90};
-
-/* Function main */
-int main(void){
-	print_array(g_array,SIZE);
-	sort_array(g_array,SIZE);
-	print_statistics(g_array,SIZE);
-
-	return 0;
-}
-
 /* User_defined Functions */
-float find_median(unsigned char *a_array, unsigned char a_size){
+unsigned char find_median(unsigned char *a_array, unsigned char a_size){
 	/* local variables */
-	float median = 0;
+	unsigned char median = 0;
 
 	/* for arrays with even number of elements */
 	if( a_size%2 == 0 ){
@@ -45,16 +29,17 @@ float find_median(unsigned char *a_array, unsigned char a_size){
 	return median;
 }
 
-float find_mean(unsigned char *a_array, unsigned char a_size){
+unsigned char find_mean(unsigned char *a_array, unsigned char a_size){
 	/* local variables */
 	unsigned char i, sum = 0;
-	float mean = 0;
+	unsigned char mean = 0;
 
 	/* summing array elements */
 	for( i = 0 ; i < a_size ; i++ ){
 		sum += a_array[i];
 	}
 	mean = sum / a_size;
+	return mean;
 }
 
 unsigned char find_maximum(unsigned char *a_array, unsigned char a_size){
@@ -87,20 +72,20 @@ unsigned char find_minimum(unsigned char *a_array, unsigned char a_size){
 
 void print_statistics(unsigned char *a_array, unsigned char a_size){
 	/* local variables */
-	float median = 0, mean = 0;
+	unsigned char median = 0, mean = 0;
 	unsigned char maximum = 0, minimum = 0;
 
 	/* getting calculated results from functions */
-	median = find_median(g_array,SIZE);
-	mean = find_mean(g_array,SIZE);
-	maximum = find_maximum(g_array,SIZE);
-	minimum = find_minimum(g_array,SIZE);
+	median = find_median(a_array,SIZE);
+	mean = find_mean(a_array,SIZE);
+	maximum = find_maximum(a_array,SIZE);
+	minimum = find_minimum(a_array,SIZE);
 
 	/* prinitng statistics on screen */
 	PRINTF("The Calculated Statistics are:\n");
 	PRINTF("***************\n");
-	PRINTF("Median Element  = %.0f\n", median);
-	PRINTF("Mean Value      = %0.f\n", mean);
+	PRINTF("Median Element  = %d\n", median);
+	PRINTF("Mean Value      = %d\n", mean);
 	PRINTF("Maximum Element = %d\n", maximum);
 	PRINTF("Minimum Element = %d\n", minimum);
 	PRINTF("****************************************\n\n");
@@ -111,7 +96,7 @@ void print_array(unsigned char *a_array, unsigned char a_size){
 	/* local variables */
 	unsigned char i;
 
-	PRINTF("The Given Array:\n");
+	PRINTF("\n************************************************************\n");
 	/* iterarting through array elements */
 	for( i = 0 ; i < a_size ; i++ ){
 		PRINTF("%3d\t", a_array[i]);
@@ -119,7 +104,7 @@ void print_array(unsigned char *a_array, unsigned char a_size){
 			PRINTF("\n");
 		}
 	}
-	PRINTF("****************************************\n");
+	PRINTF("************************************************************\n");
 #endif
 }
 
@@ -147,16 +132,6 @@ void sort_array(unsigned char *a_array, unsigned char a_size){
 		}
 		swap(&a_array[min_index], &a_array[i]);
 	}
-
-	/* printing sorted array */
-	PRINTF("The Array after Sorting:\n");
-	for( i = 0 ; i < a_size ; i++ ){
-		PRINTF("%3d\t", a_array[i]);
-		if( (i+1)%8 == 0 ){
-			PRINTF("\n");
-		}
-	}
-	PRINTF("****************************************\n");
 }
 
 

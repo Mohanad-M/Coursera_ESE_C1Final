@@ -7,7 +7,7 @@
 # [AUTHOR]:		Mohanad M. Marzouk
 # [CREATED ON]:		Dec. 5, 2019
 #
-# [USE]:		make [TARGET] [OVERRIDES]
+# [USE]:		make [TARGET] [OVERRIDES] [VERBOSE] [COURSE]
 # [BUILD TARGETS]:
 # 	<FILE>.o _ builds <FILE>.o object file.
 # 	<FILE>.asm _ builds <FILE>.asm assembler output file.
@@ -26,13 +26,13 @@ PLATFORM = HOST
 VERBOSE = DISABLE
 COURSE = COURSE
 
-#ifeq ($(VERBOSE),ENABLE)
+ifeq ($(VERBOSE),ENABLE)
 CPPFLAGS += -DVERBOSE
-#endif
+endif
 
-#ifeq ($(COURSE),COURSE1)
+ifeq ($(COURSE),COURSE1)
 CPPFLAGS += -DCOURSE1
-#endif
+endif
 
 # Compiler Flags & Defines
 
@@ -47,9 +47,18 @@ CPPFLAGS += -DCOURSE1
 #------------------------------------------------------------------------------
 
 COMCFLAGS = -Wall -Werror -g -O0 -std=c99
-TARGET = c1_final
+TARGET = c1final
 
 # Platform Conditional Execution
+ifeq ($(PLATFORM),HOST)
+  CC = gcc
+  CFLAGS = $(CO_CFLAGS)
+  CPPFLAGS += -DHOST $(INCLUDES)
+  LDFLAGS = -Wl,-Map=$(TARGET).map 	
+  
+  SIZE = size -Ad
+endif
+
 ifeq ($(PLATFORM), MSP)
 	LINKER_FILE = -T msp432p401r.lds
 	LINKER_PATH = -L ../
@@ -67,38 +76,31 @@ ifeq ($(PLATFORM), MSP)
 	CPPFLAGS = -DMSP432 $(INCLUDES)
 	CFLAGS = $(COMCFLAGS) $(ARCHFLAGS) -mcpu=$(CPU) -march=$(ARCH) --specs=$(SPECS)
 	LDFLAGS = -Wl,-Map=$(TARGET).map $(LINKER_PATH) $(LINKER_FILE)
-	SIZE = arm-none-eabi-size
-
-else
-	CC = gcc
-	CFLAGS = $(COMCFLAGS)
-	CPPFLAGS = -DHOST $(INCLUDES)
-	LDFLAGS = -Wl,-Map=$(TARGET).map
-	SIZE = size
+	SIZE = arm-none-eabi-size -Ad
 
 endif
 
 # build target variables
 OBJS = $(SOURCES:.c=.o)
 DEPS = $(SOURCES:.c=.d)
-ASM = $(SOURCES:.c=.s)
-PREP = $(SOURCES:.c=.i)
+ASMS = $(SOURCES:.c=.s)
+PRES = $(SOURCES:.c=.i)
 
 # pattern matching
 
-# object file output
+# object file output _ using -c flag to stop before linking
 %.o : %.c
 	$(CC) -c $< $(CPPFLAGS) $(CFLAGS) -o $@
 
-# dependency file output
+# dependency file output _ using -E -M flags to generate dependency file
 %.d : %.c
 	$(CC) -E -M $< $(CPPFLAGS) -o $@
 
-# assembly file output
+# assembly file output _ using -S flag to generate assembly file
 %.asm : %.c
 	$(CC) -S $< $(CPPFLAGS) $(CFLAGS) -o $@
 
-# preprocessor file output
+# preprocessor file output _ using -E flag to generate preprocessor file
 %.i : %.c
 	$(CC) -E $< $(CPPFLAGS) -o $@
 
@@ -117,6 +119,6 @@ $(TARGET).out: $(OBJS)
 
 .PHONY: clean
 clean:
-	rm -f $(OBJS) $(DEPS) $(ASM) $(PREP) $(TARGET).out $(TARGET).map
+	rm -f $(OBJS) $(DEPS) $(ASMS) $(PRES) $(TARGET).out $(TARGET).map
 
 # End of file

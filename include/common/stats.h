@@ -27,10 +27,9 @@
  * [OUT]
  * 	_ the median element of the given array.
  * [RETURN TYPE]:
- * 	_ float _ (float type for portability for arrays that have odd number
- * 	_ of elements).
+ * 	_ unsigned char.
  * --*/
-float find_median(unsigned char *a_array, unsigned char a_size);
+unsigned char find_median(unsigned char *a_array, unsigned char a_size);
 
 /*--
  * [FUNCTION]:		find_mean()
@@ -43,9 +42,9 @@ float find_median(unsigned char *a_array, unsigned char a_size);
  * [OUT]
  * 	_ the mean value of the given array elements.
  * [RETURN TYPE]:
- * 	_ float _ (float type for accuracy of the mean result).
+ * 	_ unsigned char.
  * --*/
-float find_mean(unsigned char *a_array, unsigned char a_size);
+unsigned char find_mean(unsigned char *a_array, unsigned char a_size);
 
 /*--
  * [FUNCTION]:		find_maximum()

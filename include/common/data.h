@@ -11,6 +11,11 @@
 #ifndef _DATA_H_
 #define _DATA_H_
 
+/* Includes */
+#include <stdint.h>
+#include <inttypes.h>
+#include <stdlib.h>
+
 /* Function Prototypes & Description */
 
 /*--
